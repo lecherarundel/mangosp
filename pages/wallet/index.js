@@ -61,7 +61,7 @@ Page({
   showDeposit: function(){
     wx.showModal({
       title: "",
-      content: "押金会立即退回，退款后，您将不能使用ofo共享单车确认要进行此退款吗？",
+      content: "押金会立即退回，退款后，您将不能使用芒果单车确认要进行此退款吗？",
       cancelText: "继续使用",
       cancelColor: "#b9dd08",
       confirmText: "押金退款",
@@ -77,7 +77,7 @@ Page({
       }
     })
   },
-// 关于ofo
+// 关于芒果出行
   showInvcode: function(){
     wx.showModal({
       title: "芒果出行",

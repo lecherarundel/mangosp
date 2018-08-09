@@ -4,7 +4,8 @@ Page({
     // 用户信息
     userInfo: {
       avatarUrl: "",
-      nickName: "未登录"
+      nickName: "未登录",
+      code:""
     },
     bType: "primary", // 按钮类型
     actionText: "登录", // 按钮文字提示
@@ -25,7 +26,9 @@ Page({
         this.setData({
           userInfo: {
             avatarUrl: res.data.userInfo.avatarUrl,
-            nickName: res.data.userInfo.nickName
+            nickName: res.data.userInfo.nickName,
+           
+           
           },
           bType: res.data.bType,
           actionText: res.data.actionText,
@@ -67,6 +70,10 @@ Page({
                   bType: "warn",
                   actionText: "退出登录"
                 },
+               
+               
+
+
                 success: function(res){
                   console.log("存储成功")
                 }
