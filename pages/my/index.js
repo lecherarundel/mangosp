@@ -1,7 +1,7 @@
 // pages/my/index.js
 
  const AVLeanCloud = require('../../utils/av-weapp-min-leancloud.js');
-
+const user = AVLeanCloud.User.current();
 
 
 
@@ -61,6 +61,16 @@ Page({
           wx.getUserInfo({
             withCredentials: false,
             success: (res) => {
+              //save in leanCloud
+              user.set(userInfo).save().then(user => {
+                // 成功，此时可在控制台中看到更新后的用户信息
+                this.globalData.user = user.toJSON();
+              }).catch(console.error);
+
+
+
+
+
               this.setData({
                 userInfo: {
                   avatarUrl: res.userInfo.avatarUrl,

@@ -9,7 +9,7 @@ var query = new AVLeanCloud.Query('Bike');
 var point = new AVLeanCloud.GeoPoint(30.296804, 120.233276)
 query.withinKilometers('coordinate', point, 20.0);
 query.find().then(function (results) {
-  console.log("hee")
+
   for (let result of results) {
     let newMarker = {
       id: "1",
