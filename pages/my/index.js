@@ -1,4 +1,10 @@
 // pages/my/index.js
+
+ const AVLeanCloud = require('../../utils/av-weapp-min-leancloud.js');
+
+
+
+
 Page({
   data:{
     // 用户信息
@@ -47,6 +53,10 @@ Page({
       });
       wx.login({
         success: (res) => {
+          // AVLeanCloud.User.loginWithWeapp().then(user => {
+          //   this.globalData.user = user.toJSON();
+          // }).catch(console.error);
+
           wx.hideLoading();
           wx.getUserInfo({
             withCredentials: false,

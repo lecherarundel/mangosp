@@ -1,16 +1,49 @@
 //index.js
 //获取应用实例
-var app = getApp()
+//ping "sm7wy1mx.api.lncld.net"
+
+ const AVLeanCloud = require('../../utils/av-weapp-min-leancloud.js');
+
+var newMarkers = []
+var query = new AVLeanCloud.Query('Bike');
+var point = new AVLeanCloud.GeoPoint(30.296804, 120.233276)
+query.withinKilometers('coordinate', point, 20.0);
+query.find().then(function (results) {
+  for (let result of results) {
+    let newMarker = {
+      id: "1",
+      latitude: 49,
+      longitude: 120,
+      width: 50,
+      height: 50,
+      iconPath: "../../images/markers.png",
+      title: "芒果滑板车"
+    }
+    newMarker.latitude = result.attributes.coordinate._latitude
+    newMarker.longitude = result.attributes.coordinate._longitude
+    newMarkers.push(newMarker)
+  }
+  //this.onLoad
+  refreshFlag = true
+  //this.getLocation
+}, function (error) {
+
+});
 Page({
   data: {
     scale: 18,
-    latitude: 0,
-    longitude: 0
+  
+    latitude: 30.196804,
+    longitude: 120.233276,
+    //markers: [],
   },
 // 页面加载
   onLoad: function (options) {
     // 1.获取定时器，用于判断是否已经在计费
     this.timer = options.timer;
+   
+    this.setData({
+        })
 
     // 2.获取并设置当前位置经纬度
     wx.getLocation({
@@ -18,10 +51,13 @@ Page({
       success: (res) => {
         this.setData({
           longitude: res.longitude,
-          latitude: res.latitude
+          latitude: res.latitude,
+          // latitude:30,
+          // longtitude:120.3,
+             markers: newMarkers
         })
       }
-    });
+    }),
 
     // 3.设置地图控件的位置及大小，通过设备宽高定位
     wx.getSystemInfo({
@@ -84,18 +120,40 @@ Page({
           }]
         })
       }
-    });
-
+    }),
+ 
     // 4.请求服务器，显示附近的单车，用marker标记
     wx.request({
+      
       url: 'https://www.easy-mock.com/mock/59098d007a878d73716e966f/ofodata/biyclePosition',
       data: {},
       method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
       // header: {}, // 设置请求的 header
       success: (res) => {
-          this.setData({
-            markers: res.data.data
-          })
+     
+        console.log("haha")
+            //markers:this.createMarker(newPoint)
+            // markers:this.getBikeMarker
+            //markers: res.data.data
+        this.setData({
+          
+          // markers: [{
+          //   id: "1",
+          //   latitude: newPoint.latitude,
+          //   longitude: newPoint.longitude,
+          //   width: 50,
+          //   height: 50,
+          //   iconPath: "../../images/markers.png",
+          //   title: "哪里"
+
+          // }]
+         //markers:newMarkers,
+      
+        })
+
+    
+      
+      
       },
       fail: function(res) {
         // fail
@@ -170,6 +228,8 @@ Page({
       default: break;
     }
   },
+
+  
 // 地图视野改变事件
   bindregionchange: function(e){
     // 拖动地图，获取附件单车位置
@@ -180,14 +240,14 @@ Page({
         method: 'GET', 
         success: (res) => {
           this.setData({
-            _markers: res.data.data
+           // _markers: res.data.data
           })
         }
       })
     // 停止拖动，显示单车位置
     }else if(e.type == "end"){
         this.setData({
-          markers: this.data._markers
+          //markers: this.data._markers
         })
     }
   },
