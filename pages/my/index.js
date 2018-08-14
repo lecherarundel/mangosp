@@ -3,10 +3,18 @@
  const AVLeanCloud = require('../../utils/av-weapp-min-leancloud.js');
 const user = AVLeanCloud.User.current();
 
-
-
+// AVLeanCloud.User.loginWithWeapp().then(user => {
+//   this.data.user = user.toJSON();
+// }).catch(console.error);
 Page({
+  leanCloudUserData:{ 
+  user: {
+    nickname: "",
+    avatarUrl: "",
+  }},
+
   data:{
+    
     // 用户信息
     userInfo: {
       avatarUrl: "",
@@ -19,6 +27,8 @@ Page({
   },
 // 页面加载
   onLoad:function(){
+
+
     // 设置本页导航标题
     wx.setNavigationBarTitle({
       title: '个人中心'
@@ -53,18 +63,28 @@ Page({
       });
       wx.login({
         success: (res) => {
-          // AVLeanCloud.User.loginWithWeapp().then(user => {
-          //   this.globalData.user = user.toJSON();
-          // }).catch(console.error);
 
+        
+
+
+
+          console.log(user)
           wx.hideLoading();
           wx.getUserInfo({
             withCredentials: false,
             success: (res) => {
+
+              AVLeanCloud.User.loginWithWeapp().then(user => {
+                this.leanCloudUserData.user.avatarUrl = res.userInfo.avatarUrl,
+                  this.leanCloudUserData.user.nickname = res.userInfo.nickName
+
+                this.leanCloudUserData.user = user.toJSON();
+              }).catch(console.error);
+
               //save in leanCloud
-              user.set(userInfo).save().then(user => {
+              user.set(res.userInfo).save().then(user => {
                 // 成功，此时可在控制台中看到更新后的用户信息
-                this.globalData.user = user.toJSON();
+                //this.globalData.user = user.toJSON();
               }).catch(console.error);
 
 

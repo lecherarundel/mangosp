@@ -5,18 +5,27 @@
  const AVLeanCloud = require('../../utils/av-weapp-min-leancloud.js');
 
 const MarkerHelper = require('../../model/MarkersHelper.js')
+
 MarkerHelper.downloadMarker()
 
 Page({
+  globalData: {
+    user: {
+
+    }
+
+  },
   data: {
     scale: 18,
-  
     latitude: 30.196804,
     longitude: 120.233276,
     //markers: [],
   },
 // 页面加载
   onLoad: function (options) {
+
+    
+
     // 1.获取定时器，用于判断是否已经在计费
     this.timer = options.timer;
    
@@ -27,7 +36,7 @@ Page({
     wx.getLocation({
       type: "gcj02",
       success: (res) => {
-        console.log(MarkerHelper.newMarkers)
+      
         this.setData({
           longitude: res.longitude,
           latitude: res.latitude,
